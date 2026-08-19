@@ -37,8 +37,3 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
-
-/src/lib
-/src/routes
-/src/views/auth
-/src/views/HomeView.vue
