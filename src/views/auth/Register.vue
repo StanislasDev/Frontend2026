@@ -34,7 +34,7 @@ const register = async (payload: RegisterForm) => {
 
 <template>
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl text-slate-200 p-4">Register</h1>
+        <h1 class="text-3xl text-slate-200 p-4">Inscription</h1>
 
         <!-- Formire d'inscription -->
         <form @submit.prevent="register(form)" class="max-w-md w-full mx-auto bg-slate-800 p-6 rounded-lg shadow-md box-content">
@@ -54,7 +54,7 @@ const register = async (payload: RegisterForm) => {
                 <input type="password" v-model="form.password_confirmation" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
                 <label for="floating_repeat_password" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Confirm password</label>
             </div>
-            <button type="submit" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Submit</button>
+            <button type="submit" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Inscription</button>
         </form>
     </div>
     

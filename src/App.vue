@@ -6,7 +6,10 @@ import { RouterLink, RouterView } from 'vue-router';
   <header>
     <div class="dark:bg-slate-950 bg-slate-700">
       <nav class="container mx-auto flex justify-between p-4">
-        <RouterLink to="/" class="text-white hover:text-gray-300">Home</RouterLink>
+        <div class="flex space-x-4">
+          <RouterLink to="/" class="text-white hover:text-gray-300">Home</RouterLink>
+        <RouterLink to="/dashboard" class="text-white hover:text-gray-300">Dashboard</RouterLink>
+        </div>
         <div class="flex gap-4">
           <RouterLink to="/login" class="text-white hover:text-gray-300">Login</RouterLink>
           <RouterLink to="/register" class="text-white hover:text-gray-300">Register</RouterLink>
@@ -28,4 +31,4 @@ import { RouterLink, RouterView } from 'vue-router';
     /* margin: 0 auto; */
     /* padding: 20px; */
   }
-</style>
+</style>    "continue.enableNextEdit": true,
