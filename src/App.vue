@@ -31,4 +31,4 @@ import { RouterLink, RouterView } from 'vue-router';
     /* margin: 0 auto; */
     /* padding: 20px; */
   }
-</style>    "continue.enableNextEdit": true,
+</style>

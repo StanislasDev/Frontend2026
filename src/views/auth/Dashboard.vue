@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import axiosInstance from '@/lib/axios';
+import { reactive, ref } from 'vue';
 
-const user = async () => {
+const user = ref({
+    name: '',
+    email: '',
+});
+
+const getUser = async () => {
     try {
         const response = await axiosInstance.get('/user');
-        return response.data;
+        user.value = response.data;
     } catch (error) {
         console.error('Erreur lors de la récupération des informations utilisateur :', error);
     }
@@ -13,17 +19,25 @@ const user = async () => {
 const logout = async () => {
     try {
         const response = await axiosInstance.post('/logout');
-        console.log(response.data);
-        
+        user.value = {
+            name: '',
+            email: ''
+        };
     } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
     }
 };
 
-user();
+getUser();
 </script>
 <template>
     <div class="container mx-auto p-4">
         <h1 class="text-3xl text-slate-200 p-4">Dashboard</h1>
+        <p v-if="user.name.length!=0" class="text-slate-300">Bienvenue, <span class="font-bold text-lg">{{ user?.name }}</span>!</p>
+        <p class="text-slate-300">{{ user?.email }}</p>
     </div>
+
+    <button v-if="user.name.length!=0" @click="logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Déconnexion
+    </button>
 </template>

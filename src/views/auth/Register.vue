@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axiosInstance from '@/lib/axios';
+import { AxiosError } from 'axios';
 import { reactive } from 'vue';
 
 interface RegisterForm {
@@ -16,17 +17,32 @@ const form = reactive<RegisterForm>({
     password_confirmation: ''
 });
 
+const errors = reactive({
+    name: [],
+    email: [],
+    password: [],
+});
+
 const register = async (payload: RegisterForm) => {
 
     await axiosInstance.get('/sanctum/csrf-cookie', {
         baseURL: "http://localhost:8000"
     });
 
+    // Effacer les erreurs précédentes
+    errors.name = [];
+    errors.email = [];
+    errors.password = [];
+
     try {
-        const response = await axiosInstance.post('/register', payload);
-        console.log(response.data);
-    } catch (error) {
-        console.error('Erreur de registration :', error);
+        await axiosInstance.post('/register', payload);
+    } catch (e) {
+        // pointer les erreurs d'inscription avec AxiosError
+        if (e instanceof AxiosError && e.response?.status === 422) {
+            errors.name = e.response.data.errors.name;
+            errors.email = e.response.data.errors.email;
+            errors.password = e.response.data.errors.password;
+        }
     }
 }
 
@@ -41,14 +57,23 @@ const register = async (payload: RegisterForm) => {
             <div class="relative z-0 w-full mb-5 group">
                 <input type="name" v-model="form.name" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
                 <label for="floating_name" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Name</label>
+                <template v-if="errors.name?.length">
+                    <span v-for="error in errors.name" :key="error" class="text-red-500 text-sm mt-1">{{ error }}</span>
+                </template>
             </div>
             <div class="relative z-0 w-full mb-5 group">
                 <input type="email" v-model="form.email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
                 <label for="floating_email" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
+                <template v-if="errors.email?.length">
+                    <span v-for="error in errors.email" :key="error" class="text-red-500 text-sm mt-1">{{ error }}</span>
+                </template>
             </div>
             <div class="relative z-0 w-full mb-5 group">
                 <input type="password" v-model="form.password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
                 <label for="floating_password" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+                <template v-if="errors.password?.length">
+                    <span v-for="error in errors.password" :key="error" class="text-red-500 text-sm mt-1">{{ error }}</span>
+                </template>
             </div>
             <div class="relative z-0 w-full mb-5 group">
                 <input type="password" v-model="form.password_confirmation" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
