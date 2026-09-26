@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router';
       <nav class="container mx-auto flex justify-between p-4">
         <div class="flex space-x-4">
           <RouterLink to="/" class="text-white hover:text-gray-300">Home</RouterLink>
-        <RouterLink to="/dashboard" class="text-white hover:text-gray-300">Dashboard</RouterLink>
+          <RouterLink to="/dashboard" class="text-white hover:text-gray-300">Dashboard</RouterLink>
         </div>
         <div class="flex gap-4">
           <RouterLink to="/login" class="text-white hover:text-gray-300">Login</RouterLink>

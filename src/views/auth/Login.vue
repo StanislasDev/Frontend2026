@@ -2,11 +2,8 @@
 import axiosInstance from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { reactive } from 'vue';
-
-interface LoginForm {
-    email: String,
-    password: String
-}
+import type { LoginForm } from '@/types';
+import { router } from '@/routes';
 
 const form = reactive<LoginForm>({
     email: '',
@@ -30,6 +27,7 @@ const login = async (payload: LoginForm) => {
 
     try {
         await axiosInstance.post('/login', payload);
+        router.push("/dashboard");
     } catch (e) {
         // pointer les erreurs de la connexion avec AxiosError
         if (e instanceof AxiosError && e.response?.status === 422) {

@@ -9,6 +9,6 @@ import { useRouter } from 'vue-router'
 </script>
 
 <template>
-  <h2>Hello</h2>
+  <h2 class="text-white">Hello</h2>
   <!-- <button @click="goToLogin">Go to Login</button> -->
 </template>

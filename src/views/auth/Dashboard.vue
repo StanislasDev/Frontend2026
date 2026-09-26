@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import axiosInstance from '@/lib/axios';
+import { router } from '@/routes';
+import type { User } from '@/types';
 import { reactive, ref } from 'vue';
 
-const user = ref({
-    name: '',
-    email: '',
-});
+const user = ref<User | null>(null)
 
 const getUser = async () => {
     try {
@@ -19,10 +18,8 @@ const getUser = async () => {
 const logout = async () => {
     try {
         const response = await axiosInstance.post('/logout');
-        user.value = {
-            name: '',
-            email: ''
-        };
+        user.value = null;
+        router.push("/login");
     } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
     }

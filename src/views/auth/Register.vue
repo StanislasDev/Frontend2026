@@ -2,13 +2,9 @@
 import axiosInstance from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { reactive } from 'vue';
+import type { RegisterForm } from '@/types';
+import { router } from '@/routes';
 
-interface RegisterForm {
-    name: String,
-    email: String,
-    password: String,
-    password_confirmation: String;
-}
 
 const form = reactive<RegisterForm>({
     name: '',
@@ -36,6 +32,7 @@ const register = async (payload: RegisterForm) => {
 
     try {
         await axiosInstance.post('/register', payload);
+        router.push("/dashboard");
     } catch (e) {
         // pointer les erreurs d'inscription avec AxiosError
         if (e instanceof AxiosError && e.response?.status === 422) {
