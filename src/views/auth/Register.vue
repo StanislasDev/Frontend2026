@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import axiosInstance from '@/lib/axios';
-import { AxiosError } from 'axios';
 import { reactive } from 'vue';
 import type { RegisterForm } from '@/types';
-import { router } from '@/routes';
+import { useAuthStore } from '@/store/auth';
 
-
+const authStore = useAuthStore();
 const form = reactive<RegisterForm>({
     name: '',
     email: '',
@@ -13,36 +11,8 @@ const form = reactive<RegisterForm>({
     password_confirmation: ''
 });
 
-const errors = reactive({
-    name: [],
-    email: [],
-    password: [],
-});
-
-const register = async (payload: RegisterForm) => {
-
-    await axiosInstance.get('/sanctum/csrf-cookie', {
-        baseURL: "http://localhost:8000"
-    });
-
-    // Effacer les erreurs précédentes
-    errors.name = [];
-    errors.email = [];
-    errors.password = [];
-
-    try {
-        await axiosInstance.post('/register', payload);
-        router.push("/dashboard");
-    } catch (e) {
-        // pointer les erreurs d'inscription avec AxiosError
-        if (e instanceof AxiosError && e.response?.status === 422) {
-            errors.name = e.response.data.errors.name;
-            errors.email = e.response.data.errors.email;
-            errors.password = e.response.data.errors.password;
-        }
-    }
-}
-
+const errors = authStore.errors;
+const { register } = authStore;
 </script>
 
 <template>

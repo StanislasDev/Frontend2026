@@ -1,41 +1,17 @@
 <script setup lang="ts">
-import axiosInstance from '@/lib/axios';
-import { AxiosError } from 'axios';
-import { reactive } from 'vue';
 import type { LoginForm } from '@/types';
-import { router } from '@/routes';
+import { useAuthStore } from '@/store/auth';
+import { reactive } from 'vue';
+
+const authStore = useAuthStore();
 
 const form = reactive<LoginForm>({
     email: '',
     password: ''
 });
 
-const errors = reactive({
-    email: [],
-    password: []
-});
-
-const login = async (payload: LoginForm) => {
-
-    await axiosInstance.get('/sanctum/csrf-cookie', {
-        baseURL: "http://localhost:8000"
-    });
-
-    // Effacer les erreurs précédentes
-    errors.email = [];
-    errors.password = [];
-
-    try {
-        await axiosInstance.post('/login', payload);
-        router.push("/dashboard");
-    } catch (e) {
-        // pointer les erreurs de la connexion avec AxiosError
-        if (e instanceof AxiosError && e.response?.status === 422) {
-            errors.email = e.response.data.errors.email;
-            errors.password = e.response.data.errors.password;
-        }
-    }
-}
+const errors = authStore.errors;
+const { login } = authStore;
 
 </script>
 
